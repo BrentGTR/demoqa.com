@@ -15,17 +15,10 @@ import java.util.concurrent.TimeUnit;
 public class PrerequisiteStepDefs {
 
     private static WebDriver webDriver = WebDriverFactory.create();
-//public static WebDriver driver;
     private SearchPageObjects searchPageObjects = new SearchPageObjects(webDriver);
 
     @Given("^that the Book Store Demo site has been accessed$")
     public void that_the_Demo_site_has_been_accessed() throws Throwable {
-//        WebDriverManager.chromedriver().setup();
-//        driver = new ChromeDriver();
-//        driver.manage().window().maximize();
-//        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-//
-//        driver.get("https://demoqa.com/books");
 
         searchPageObjects.loadUrl();
         if (!searchPageObjects.getTitle().equals(searchPageObjects.getSiteTitle())) {
@@ -34,8 +27,7 @@ public class PrerequisiteStepDefs {
     }
 
     @AfterSuite
-    public void closeTest(ITestResult result) throws IOException {
-        System.out.println(result);
+    public void closeTest() throws IOException {
         System.out.println("Tear down started.");
 
         webDriver.close();
