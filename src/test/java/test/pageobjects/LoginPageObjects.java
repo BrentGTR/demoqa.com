@@ -3,6 +3,7 @@ package test.pageobjects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -39,6 +40,7 @@ public class LoginPageObjects {
 
     public LoginPageObjects(WebDriver driver){
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public Object getURL() {
@@ -52,20 +54,6 @@ public class LoginPageObjects {
     public void loadUrl() {
         System.out.println("The url is: " + getURL());
         driver.get((String) getURL());
-    }
-
-    public WebDriver getWebDriver() {
-        return driver;
-    }
-
-    public void shutdown() {
-        System.out.println("The site title is incorrect. Terminating JVM.");
-        Path currentRelativePath = Paths.get("");
-        String s = currentRelativePath.toAbsolutePath().toString();
-        s += "/error.html";
-        driver.navigate().to("file://" + s);
-        driver.quit();
-        System.exit(0);
     }
 
     public void logIntoBookstore(String userName, String password) {

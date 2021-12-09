@@ -3,14 +3,13 @@ package test.pageobjects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -23,8 +22,8 @@ public class SearchPageObjects {
     @FindBy(id = "login")
     WebElement loginButton;
 
-    private WebDriver driver;
-    private Properties prop = new Properties();
+    private final WebDriver driver;
+    private final Properties prop = new Properties();
     FileInputStream configData;
     {
         try {
@@ -37,6 +36,7 @@ public class SearchPageObjects {
 
     public SearchPageObjects(WebDriver driver){
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public Object getURL() {
@@ -65,20 +65,17 @@ public class SearchPageObjects {
     }
 
     public void verifyTitleDisplayedMatchesSearchInput(String title){
-        Assert.assertEquals(title, firstBookTitleInResultsTable.getText());
+        Assert.assertEquals(firstBookTitleInResultsTable.getText(), title);
     }
 
     public void navigateToTheLoginPage() {
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(searchInputBox));
-        searchInputBox.sendKeys("searchCriterion");
+        new WebDriverWait(driver, Duration.ofSeconds(10)).
+                until(ExpectedConditions.visibilityOf(loginButton));
+        loginButton.click();
     }
 
     public void shutdown() {
-        System.out.println("The site title is incorrect. Terminating JVM.");
-        Path currentRelativePath = Paths.get("");
-        String s = currentRelativePath.toAbsolutePath().toString();
-        s += "/error.html";
-        driver.navigate().to("file://" + s);
+        System.out.println("Tear down started.");
         driver.quit();
         System.exit(0);
     }

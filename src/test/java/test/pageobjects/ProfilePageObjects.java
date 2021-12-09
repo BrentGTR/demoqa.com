@@ -3,6 +3,7 @@ package test.pageobjects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -27,10 +28,11 @@ public class ProfilePageObjects {
 
     public ProfilePageObjects(WebDriver driver){
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public void verifyThatTheProfilePageIsDisplayed() {
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(mainHeader));
-        Assert.assertEquals("Profile", mainHeader.getText());
+        Assert.assertEquals(mainHeader.getText(),"Profile" );
     }
 }
